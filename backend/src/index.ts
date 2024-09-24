@@ -2,6 +2,7 @@ import express from "express";
 import { PORT } from "./config/config";
 import { connectToMongoWithRetry } from "./config/mongo";
 import authRouter from "./routes/authRoutes";
+import taskRouter from "./routes/taskRoutes";
 
 connectToMongoWithRetry();
 
@@ -16,6 +17,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authRouter);
+app.use("/api/task", taskRouter);
 
 app.listen(PORT, () => {
   console.log(`Server listening on port: `, PORT);
