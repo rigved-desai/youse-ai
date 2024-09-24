@@ -1,5 +1,8 @@
 import express from 'express';
 import { PORT } from './config/config';
+import { connectToMongoWithRetry } from './config/mongo';
+
+connectToMongoWithRetry();
 
 const app = express();
 
