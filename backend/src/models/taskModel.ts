@@ -12,12 +12,17 @@ export enum TASK_PRIORITY {
   HIGH = "High",
 }
 
+export enum TASK_SORTING {
+  ASCENDING = "asc",
+  DESCENDING = "desc",
+}
+
 const taskSchema = new Schema({
   title: {
     type: String,
     required: [true, "Task title is required!"],
   },
-  descrption: {
+  description: {
     type: String,
     required: false,
   },

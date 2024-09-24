@@ -1,11 +1,16 @@
-import { Task, TASK_PRIORITY, TASK_STATUS } from "../models/taskModel";
+import {
+  Task,
+  TASK_PRIORITY,
+  TASK_SORTING,
+  TASK_STATUS,
+} from "../models/taskModel";
 
 export type TaskFilters = {
   status?: TASK_STATUS;
   priority?: TASK_PRIORITY;
 };
 
-export async function getTasks(filters?: TaskFilters, sort?: 1 | -1) {
+export async function getTasks(filters?: TaskFilters, sort?: TASK_SORTING) {
   try {
     const query = Task.find();
     const { status, priority } = filters ?? {};
@@ -63,7 +68,7 @@ export async function updateTask(
         dueDate,
         description,
       },
-      { new: true }
+      { new: true, runValidators: true }
     );
     return task;
   } catch (err) {
