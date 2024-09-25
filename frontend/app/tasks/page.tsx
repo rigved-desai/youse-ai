@@ -2,11 +2,10 @@
 
 import { useEffect, useState } from "react"
 import { fetchTasks } from "../api/api"
-import { Task } from "./columns";
 import PriorityFilter from "./components/PriorityFilter";
 import StatusFilter from "./components/StatusFilter";
 import TasksTable from "./components/TasksTable";
-
+import { Task } from "../api/api"; 
 
 export default function TasksPage() {
 
@@ -18,6 +17,7 @@ export default function TasksPage() {
 
     useEffect(() => {
         const fetchAndSetData = async () => {
+            setLoading(true);
             try {
                 const tasks = await fetchTasks(status, priority); 
                 setTasks(tasks);

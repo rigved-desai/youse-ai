@@ -1,5 +1,6 @@
 import { DataTable } from "@/components/DataTable/DataTable";
-import { Task, taskTableColumns } from "../columns";
+import { taskTableColumns } from "../columns";
+import { Task } from "@/app/api/api";
 
 export type TasksTableProps = {
     tasks: Task[]

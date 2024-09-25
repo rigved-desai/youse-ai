@@ -5,13 +5,7 @@ import dayjs from 'dayjs';
 import { ArrowUpDown, ArrowDown, ArrowUp } from "lucide-react"
 import { Button } from "@/components/ui/button";
 
-export type Task = {
-    title?: string,
-    description?: string,
-    status?: string,
-    priority?: string,
-    dueDate?: Date
-};
+import { Task } from "../api/api";
 
 const taskPrioritySortValues: Record<string, number> = {
     'Low': 0,
