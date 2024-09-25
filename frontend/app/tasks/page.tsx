@@ -19,7 +19,7 @@ export default function TasksPage() {
         const fetchAndSetData = async () => {
             setLoading(true);
             try {
-                const tasks = await fetchTasks(status, priority); 
+                const tasks = await fetchTasks({status, priority}); 
                 setTasks(tasks);
             }
             catch(err) {
