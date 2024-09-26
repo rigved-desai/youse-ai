@@ -43,7 +43,7 @@ export default function SignUpPage() {
     try {
       await delay(2000);
       await signUpUser({ username, password });
-      toast.success("Account created successfully!");
+      toast.success('Account created successfully!');
       router.push('/login');
     } catch (err) {
       const error = handleError(err);
