@@ -18,6 +18,7 @@ import { useState } from 'react';
 import { delay, handleError } from '../utils/utils';
 import { ThreeDots } from 'react-loader-spinner';
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 const formSchema = z.object({
   username: z.string().min(2).max(20),
@@ -25,6 +26,7 @@ const formSchema = z.object({
 });
 
 export default function SignUpPage() {
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,6 +43,8 @@ export default function SignUpPage() {
     try {
       await delay(2000);
       await signUpUser({ username, password });
+      toast.success("Account created successfully!");
+      router.push('/login');
     } catch (err) {
       const error = handleError(err);
       toast.error(error);
