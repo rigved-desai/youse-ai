@@ -1,56 +1,23 @@
-"use client";
+import Tasks from "./components/Tasks";
+import { redirect } from "next/navigation";
+import jwt from 'jsonwebtoken';
+import {cookies} from 'next/headers';
+import TasksGreetingHeader from "./components/TasksGreetingHeader";
 
-import { useEffect, useState } from "react"
-import { fetchTasks } from "../api/api"
-import PriorityFilter from "./components/PriorityFilter";
-import StatusFilter from "./components/StatusFilter";
-import TasksTable from "./components/TasksTable";
-import { Task } from "../api/api"; 
+export default async function TasksPage() {
 
-export default function TasksPage() {
-
-    const [tasks, setTasks] = useState<Task[]>([]);
-    const [loading, setLoading] = useState(false);
-
-    const [status, setStatus] = useState("");
-    const [priority, setPriority] = useState("");
-
-    useEffect(() => {
-        const fetchAndSetData = async () => {
-            setLoading(true);
-            try {
-                const tasks = await fetchTasks({status, priority}); 
-                setTasks(tasks);
-            }
-            catch(err) {
-                console.log(err);
-            }
-            finally {
-                setLoading(false);
-            }
-        };
-        fetchAndSetData();
-    }, [status, priority]);
-    
-    if(loading) {
-        return (
-            <div>Loading...</div>
-        )
+    const cookieStore = cookies();
+    const token = cookieStore.get("tasks-auth-token");
+    if(!token) {
+        redirect("/login");
     }
+    const payload = jwt.decode(token.value) as {username: string};
+    const username = payload.username;
 
     return (
         <div className="max-w-[80vw] mx-auto">
-            <div>
-            <h2 className="text-2xl font-bold tracking-tight">Welcome back!</h2>
-            <p className="text-muted-foreground">
-              Here's a list of your tasks!
-            </p>
-          </div>
-            <div className="container flex p-2 gap-5">
-                <StatusFilter status={status} setStatus={setStatus} />
-                <PriorityFilter priority={priority} setPriority={setPriority} />
-            </div>
-        <TasksTable tasks={tasks} />
+            <TasksGreetingHeader username={username}/>
+          <Tasks />
         </div>
     )
 
