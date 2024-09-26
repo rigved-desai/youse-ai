@@ -21,7 +21,7 @@ export default function TasksGreetingHeader({username} : TasksGreetingHeaderProp
         <div>
             <h2 className="text-2xl font-bold tracking-tight">Welcome back {username}!</h2>
             <p className="text-muted-foreground">
-              Here's a list of your tasks!
+              Here`&apos;`s a list of your tasks!
             </p>
         </div>
     )

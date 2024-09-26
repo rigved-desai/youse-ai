@@ -2,7 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import dayjs from 'dayjs';
-import { ArrowUpDown, ArrowDown, ArrowUp, Edit } from "lucide-react"
+import { ArrowUpDown, ArrowDown, ArrowUp } from "lucide-react"
 import { Button } from "@/components/ui/button";
 
 
@@ -13,7 +13,7 @@ const taskPrioritySortValues: Record<string, number> = {
     'Low': 0,
     'Medium': 1,
     'High': 2
-} as const;
+};
 
 const taskStatusSortValues: Record<string, number> = {
     'To Do': 0,

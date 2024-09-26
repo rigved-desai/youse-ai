@@ -1,5 +1,5 @@
 import {useDraggable} from '@dnd-kit/core';
-import { PropsWithChildren, useState } from 'react';
+import { PropsWithChildren } from 'react';
 
 export type DraggableProps = {
     id: string

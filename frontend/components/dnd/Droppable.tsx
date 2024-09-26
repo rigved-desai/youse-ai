@@ -1,5 +1,5 @@
 import {useDroppable} from '@dnd-kit/core';
-import { PropsWithChildren, ReactNode } from 'react';
+import { PropsWithChildren } from 'react';
 
 export type DroppableProps = {
     id: string,
