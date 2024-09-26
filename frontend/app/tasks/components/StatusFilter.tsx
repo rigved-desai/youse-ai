@@ -7,6 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { Filter } from "lucide-react";
 
 export type StatusFilterProps = {
     status: string,
@@ -33,7 +34,10 @@ export default function StatusFilter({status, setStatus} : StatusFilterProps) {
     return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="default">Filter by Status</Button>
+        <Button variant="default">
+        <Filter className="mx-1"/>
+          {status !== '' ? `Status: ${status}` : "Status"}
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>Task Status</DropdownMenuLabel>

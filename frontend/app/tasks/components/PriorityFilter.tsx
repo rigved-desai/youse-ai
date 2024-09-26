@@ -7,6 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { Filter } from "lucide-react";
 
 export type PriorityFilterProps = {
     priority: string,
@@ -33,9 +34,12 @@ export default function PriorityFilter({priority, setPriority} : PriorityFilterP
     return (
             <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="default">Filter by Priority</Button>
+      <Button variant="default">
+        <Filter className="mx-1"/>
+          {priority !== '' ? `Priority: ${priority}` : "Priority"}
+        </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
+      <DropdownMenuContent >
         <DropdownMenuLabel>Task Priority</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuCheckboxItem
