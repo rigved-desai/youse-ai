@@ -63,6 +63,48 @@ export async function fetchTasks(req?: FetchTasksRequest) {
     }
 }
 
+export type CreateTaskRequest = {
+    title?: string,
+    description?: string,
+    status?: string,
+    priority?: string,
+    dueDate?: Date
+}
+
+export type CreateTaskResponse = {
+    error?: string
+}
+
+export async function createTask(req: CreateTaskRequest) {
+    try {
+        const authToken = getAuthToken();
+        const {title, description, status, priority, dueDate} = req;
+        const resp = await fetch(`${API_BASE_URL}/task`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
+            },
+            body: JSON.stringify({
+                title,
+                description,
+                status,
+                priority,
+                dueDate
+            })
+        });
+        const respBody = await resp.json() as CreateTaskResponse;
+        const { error } = respBody;
+        if(error) {
+            throw Error(error);
+        }
+    }
+    catch(err) {
+        throw err;
+    }
+}
+
+
 export type UpdateTaskRequest = {
     taskId: string;
     title?: string,

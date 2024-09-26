@@ -6,6 +6,7 @@ import { fetchTasks, Task } from "@/app/api/api";
 import { useEffect, useState } from "react";
 import StatusFilter from "./StatusFilter";
 import PriorityFilter from "./PriorityFilter";
+import TaskCreateDialog from "./TaskCreateDialog";
 
 
 export default function Tasks() {
@@ -42,6 +43,7 @@ export default function Tasks() {
     return (
         <>
         <div className="container flex p-2 gap-5">
+                <TaskCreateDialog />
                 <StatusFilter status={status} setStatus={setStatus} />
                 <PriorityFilter priority={priority} setPriority={setPriority} />
             </div>
