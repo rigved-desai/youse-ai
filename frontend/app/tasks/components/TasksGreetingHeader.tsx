@@ -1,28 +1,25 @@
-"use client";
+'use client';
 
-import { useUser } from "@/app/contexts/UserContext";
+import { useUser } from '@/app/contexts/UserContext';
 
 export type TasksGreetingHeaderProps = {
-    username: string;
-}
+  username: string;
+};
 
-export default function TasksGreetingHeader({username} : TasksGreetingHeaderProps) {
-    
-    const userContext = useUser();
-    if(!userContext) {
-        return null;
-    }
-    const {user, updateUserContext} = userContext;
-    if(!user) {
-        updateUserContext(username);
-    }
+export default function TasksGreetingHeader({ username }: TasksGreetingHeaderProps) {
+  const userContext = useUser();
+  if (!userContext) {
+    return null;
+  }
+  const { user, updateUserContext } = userContext;
+  if (!user) {
+    updateUserContext(username);
+  }
 
-    return (
-        <div>
-            <h2 className="text-2xl font-bold tracking-tight">Welcome back {username}!</h2>
-            <p className="text-muted-foreground">
-              Here`&apos;`s a list of your tasks!
-            </p>
-        </div>
-    )
+  return (
+    <div>
+      <h2 className="text-2xl font-bold tracking-tight">Welcome back {username}!</h2>
+      <p className="text-muted-foreground">Here`&apos;`s a list of your tasks!</p>
+    </div>
+  );
 }

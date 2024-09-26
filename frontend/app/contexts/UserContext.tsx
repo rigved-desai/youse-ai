@@ -8,17 +8,14 @@ type UserContextProps = {
 const userContext = createContext<UserContextProps | undefined>(undefined);
 
 export function UserContextProvider({ children }: PropsWithChildren) {
-
   const [user, setUsername] = useState<string | undefined>(undefined);
 
   const updateUserContext = (updatedUser: string | undefined) => {
     setUsername(updatedUser);
   };
   return (
-    <userContext.Provider value={{ user, updateUserContext }}>
-      {children}
-    </userContext.Provider>
-  )
+    <userContext.Provider value={{ user, updateUserContext }}>{children}</userContext.Provider>
+  );
 }
 
 export function useUser() {

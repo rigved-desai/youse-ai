@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -6,40 +6,38 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Filter } from "lucide-react";
+} from '@/components/ui/dropdown-menu';
+import { Filter } from 'lucide-react';
 
 export type PriorityFilterProps = {
-    priority: string,
-    setPriority: (newPriority: string) => void; 
-}
-
-export enum TaskPriority {
-    LOW = "Low",
-    MEDIUM = "Medium",
-    HIGH = "High"
+  priority: string;
+  setPriority: (newPriority: string) => void;
 };
 
-export default function PriorityFilter({priority, setPriority} : PriorityFilterProps) {
+export enum TaskPriority {
+  LOW = 'Low',
+  MEDIUM = 'Medium',
+  HIGH = 'High',
+}
 
-    const handleChange = (newPriority : string) => {
-        return (() => {
-            if(priority === newPriority) {
-                setPriority("");
-            }
-            else setPriority(newPriority);
-        })
-    }
+export default function PriorityFilter({ priority, setPriority }: PriorityFilterProps) {
+  const handleChange = (newPriority: string) => {
+    return () => {
+      if (priority === newPriority) {
+        setPriority('');
+      } else setPriority(newPriority);
+    };
+  };
 
-    return (
-            <DropdownMenu>
+  return (
+    <DropdownMenu>
       <DropdownMenuTrigger asChild>
-      <Button variant="default">
-        <Filter className="mx-1"/>
-          {priority !== '' ? `Priority: ${priority}` : "Priority"}
+        <Button variant="default">
+          <Filter className="mx-1" />
+          {priority !== '' ? `Priority: ${priority}` : 'Priority'}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent >
+      <DropdownMenuContent>
         <DropdownMenuLabel>Task Priority</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuCheckboxItem
@@ -62,5 +60,5 @@ export default function PriorityFilter({priority, setPriority} : PriorityFilterP
         </DropdownMenuCheckboxItem>
       </DropdownMenuContent>
     </DropdownMenu>
-    )
+  );
 }
