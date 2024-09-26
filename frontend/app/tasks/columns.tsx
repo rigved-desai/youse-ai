@@ -2,10 +2,12 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import dayjs from 'dayjs';
-import { ArrowUpDown, ArrowDown, ArrowUp } from "lucide-react"
+import { ArrowUpDown, ArrowDown, ArrowUp, Edit } from "lucide-react"
 import { Button } from "@/components/ui/button";
 
+
 import { Task } from "../api/api";
+import TaskEditDialog from "./components/TaskEditDialog";
 
 const taskPrioritySortValues: Record<string, number> = {
     'Low': 0,
@@ -142,4 +144,14 @@ export const taskTableColumns: ColumnDef<Task>[] = [
             return date ? dayjs(date).format("DD/MM/YY") : "-";
         }
     },
+    {
+      id: 'Update',
+      cell: (({row}) => {
+        const task = row.original;
+        const { _id, title, description, status, priority, dueDate} = task;
+        return (
+            <TaskEditDialog taskId={_id} title={title} description={description} status={status} priority={priority} dueDate={dueDate}></TaskEditDialog>
+        )
+      })
+    }
 ];

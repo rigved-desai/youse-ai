@@ -68,7 +68,8 @@ export type UpdateTaskRequest = {
     title?: string,
     description?: string,
     status?: string,
-    priority?: string
+    priority?: string,
+    dueDate?: Date
 }
 
 export type UpdateTaskResponse = {
@@ -77,17 +78,20 @@ export type UpdateTaskResponse = {
 
 export async function updateTask(req : UpdateTaskRequest) {
     try {
-        const {taskId, title, description, status, priority} = req;
+        const authToken = getAuthToken();
+        const {taskId, title, description, status, priority, dueDate} = req;
         const resp = await fetch(`${API_BASE_URL}/task/${taskId}`, {
             method: "PUT",
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
             },
             body: JSON.stringify({
                 title,
                 description,
                 status,
-                priority
+                priority,
+                dueDate
             })
         });
         const respBody = await resp.json() as UpdateTaskResponse;
