@@ -19,7 +19,7 @@ export default function TasksGreetingHeader({ username }: TasksGreetingHeaderPro
   return (
     <div>
       <h2 className="text-2xl font-bold tracking-tight">Welcome back {username}!</h2>
-      <p className="text-muted-foreground">Here`&apos;`s a list of your tasks!</p>
+      <p className="text-muted-foreground">Here&apos;s a list of your tasks!</p>
     </div>
   );
 }

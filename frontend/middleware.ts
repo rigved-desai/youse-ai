@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
 
-const API_BASE_URL = 'http://localhost:8000/api';
+const API_BASE_URL = process.env.API_BASE_URL;
 
 export async function middleware(request: NextRequest) {
   const authToken = request.cookies.get('tasks-auth-token');

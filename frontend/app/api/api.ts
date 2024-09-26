@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import Cookies from 'js-cookie';
 
-const API_BASE_URL = 'http://localhost:8000/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 function getAuthToken() {
   return Cookies.get('tasks-auth-token');
