@@ -116,7 +116,7 @@ export default function TaskEditDialog({
           <DialogTitle>Edit Task</DialogTitle>
         </DialogHeader>
 
-        <Label htmlFor="title">Ttile</Label>
+        <Label htmlFor="title">Title</Label>
         <Input id="title" value={newTitle} onChange={handleTitleChange} />
         <Label htmlFor="description">Description</Label>
         <Input id="description" value={newDescription} onChange={handleDescriptionChange} />
