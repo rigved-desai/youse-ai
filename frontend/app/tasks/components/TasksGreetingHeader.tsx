@@ -10,7 +10,6 @@ export default function TasksGreetingHeader({username} : TasksGreetingHeaderProp
     
     const userContext = useUser();
     if(!userContext) {
-        console.log("No user context");
         return null;
     }
     const {user, updateUserContext} = userContext;

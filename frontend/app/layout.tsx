@@ -2,6 +2,7 @@
 
 import NavBar from "@/components/NavBar/NavBar";
 import localFont from "next/font/local";
+import { Toaster } from "sonner";
 import { UserContextProvider } from "./contexts/UserContext";
 import "./globals.css";
 
@@ -26,10 +27,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Toaster richColors/>
         <UserContextProvider>
         <NavBar />
         {children}
         </UserContextProvider>
+        
       </body>
     </html>
   );

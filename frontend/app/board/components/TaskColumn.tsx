@@ -19,7 +19,6 @@ export default function TaskColumn({header, taskComponents, loading} : TaskColum
 
     const renderedComponents = taskComponents.filter((component)=> {
         if(component.parent === header) {
-            console.log(component.parent);
             return component;
         }
     });

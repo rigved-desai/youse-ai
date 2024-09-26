@@ -35,8 +35,10 @@ import {
 } from "@/components/ui/popover"
  
 import { updateTask } from '@/app/api/api';
-import { delay } from '@/app/utils/utils';
+import { delay, handleError } from '@/app/utils/utils';
 import { ThreeDots } from "react-loader-spinner";
+import {toast} from 'sonner';
+
 
 export type TaskEditDialogProps = {
     taskId: string
@@ -77,10 +79,11 @@ export default function TaskEditDialog({taskId, title, status, priority, descrip
                 description: newDescription,
                 dueDate: newDueDate
             });
-            console.log("Update successful!");
+            toast.success("Task updated successfully!");
         }
         catch(err) {
-            console.log(err);
+            const error = handleError(err);
+            toast.error(error);
         }
         finally {
             setLoading(false);

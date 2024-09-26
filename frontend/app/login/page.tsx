@@ -11,7 +11,8 @@ import { useRouter } from "next/navigation";
 import { useUser } from "../contexts/UserContext";
 import { useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
-import { delay } from "../utils/utils";
+import { delay, handleError } from "../utils/utils";
+import {toast} from 'sonner';
  
 const formSchema = z.object({
   username: z.string().min(3).max(20),
@@ -45,7 +46,8 @@ export default function LoginPage() {
             router.push("/tasks");
         }
         catch(err){
-            console.log(err);
+          const error = handleError(err);
+          toast.error(error);
         }
         finally {
           setLoading(false);

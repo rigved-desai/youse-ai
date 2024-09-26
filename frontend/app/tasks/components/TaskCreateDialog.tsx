@@ -35,9 +35,15 @@ import {
 } from "@/components/ui/popover"
 import { createTask } from '@/app/api/api';
 import { ThreeDots } from "react-loader-spinner";
-import { delay } from '@/app/utils/utils';
+import { delay, handleError } from '@/app/utils/utils';
+import {toast} from 'sonner';
 
-export default function TaskCreateDialog() {
+
+export type TaskCreateDialogProps = {
+    toggleRefresh: () => void;
+}
+
+export default function TaskCreateDialog({toggleRefresh} : TaskCreateDialogProps) {
     const [newTitle, setNewTitle] = useState<string>();
     const [newDescription, setNewDescription] = useState<string>();
     const [newStatus, setNewStatus] = useState<string>();
@@ -65,10 +71,12 @@ export default function TaskCreateDialog() {
                 description: newDescription,
                 dueDate: newDueDate
             });
-            console.log("Create successful!");
+            toast.success("Task created successfully!");
+            toggleRefresh();
         }
         catch(err) {
-            console.log(err);
+            const error = handleError(err);
+            toast.error(error);
         }
         finally {
             setLoading(false);

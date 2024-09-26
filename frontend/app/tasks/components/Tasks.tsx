@@ -7,14 +7,22 @@ import { useEffect, useState } from "react";
 import StatusFilter from "./StatusFilter";
 import PriorityFilter from "./PriorityFilter";
 import TaskCreateDialog from "./TaskCreateDialog";
-import { delay } from "@/app/utils/utils";
+import { delay, handleError } from "@/app/utils/utils";
 import {ThreeDots} from 'react-loader-spinner';
-
+import { toast } from 'sonner';
+ 
 
 export default function Tasks() {
 
     const [tasks, setTasks] = useState<Task[]>([]);
     const [loading, setLoading] = useState(false);
+    const [refresh, setRefresh] = useState(false);
+
+    const toggleRefresh = () => {
+        setRefresh((prev) => {
+            return !prev;
+        });
+    }
 
     const [status, setStatus] = useState("");
     const [priority, setPriority] = useState("");
@@ -28,14 +36,15 @@ export default function Tasks() {
                 setTasks(tasks);
             }
             catch(err) {
-                console.log(err);
+                const error = handleError(err);
+                toast.error(error);
             }
             finally {
                 setLoading(false);
             }
         };
         fetchAndSetData();
-    }, [status, priority]);
+    }, [status, priority, refresh]);
 
     if(loading) {
         return (
@@ -48,7 +57,7 @@ export default function Tasks() {
     return (
         <>
         <div className="container flex p-2 gap-5">
-                <TaskCreateDialog />
+                <TaskCreateDialog toggleRefresh={toggleRefresh}/>
                 <StatusFilter status={status} setStatus={setStatus} />
                 <PriorityFilter priority={priority} setPriority={setPriority} />
             </div>

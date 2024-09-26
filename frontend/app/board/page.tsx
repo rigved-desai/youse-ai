@@ -5,8 +5,10 @@ import { DndContext, DragEndEvent, UniqueIdentifier } from "@dnd-kit/core";
 import dayjs from "dayjs";
 import { ReactNode, useEffect, useState } from "react"
 import { fetchTasks, updateTask } from "../api/api";
-import { delay } from "../utils/utils";
+import { delay, handleError } from "../utils/utils";
 import TaskColumn from "./components/TaskColumn";
+import {toast} from 'sonner';
+
 
 export type TaskCardComponent = {
     taskCard: ReactNode,
@@ -47,7 +49,8 @@ export default function BoardPage() {
                 }));
             }
             catch(err) {
-                console.log(err);
+                const error = handleError(err);
+                toast.error(error);
             }        
             finally{
                 setLoading(false);
@@ -63,7 +66,8 @@ export default function BoardPage() {
             await updateTask({taskId: active.id as string, status: over.id as string});
         }
         catch(err) {
-            console.log(err);
+            const error = handleError(err);
+            toast.error(error);
         }
         setTaskComponents((prevComponents) => {
             return prevComponents.map((taskComponent) => {

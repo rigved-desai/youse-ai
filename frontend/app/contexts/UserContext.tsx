@@ -14,8 +14,6 @@ export function UserContextProvider({ children }: PropsWithChildren) {
   const updateUserContext = (updatedUser: string | undefined) => {
     setUsername(updatedUser);
   };
-
-  console.log("Context user: ", user);
   return (
     <userContext.Provider value={{ user, updateUserContext }}>
       {children}

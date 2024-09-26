@@ -8,8 +8,9 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { signUpUser } from "../api/api";
 import { useState } from "react";
-import { delay } from "../utils/utils";
+import { delay, handleError } from "../utils/utils";
 import { ThreeDots } from "react-loader-spinner";
+import {toast} from 'sonner';
  
 const formSchema = z.object({
   username: z.string().min(2).max(20),
@@ -37,7 +38,8 @@ export default function SignUpPage() {
             await signUpUser({username, password});
         }
         catch(err){
-            console.log(err);
+            const error = handleError(err);
+            toast.error(error);
         }
         finally {
           setLoading(false);
