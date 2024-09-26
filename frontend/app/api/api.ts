@@ -104,7 +104,6 @@ export async function createTask(req: CreateTaskRequest) {
     }
 }
 
-
 export type UpdateTaskRequest = {
     taskId: string;
     title?: string,
@@ -115,6 +114,14 @@ export type UpdateTaskRequest = {
 }
 
 export type UpdateTaskResponse = {
+    data: {
+        _id: string,
+        title: string,
+        status: string,
+        priority: string,
+        description?: string,
+        dueDate?: Date
+    }
     error?: string
 }
 
@@ -137,6 +144,39 @@ export async function updateTask(req : UpdateTaskRequest) {
             })
         });
         const respBody = await resp.json() as UpdateTaskResponse;
+        const { data, error } = respBody;
+        if(error) {
+            throw Error(error);
+        }
+        if(!data) {
+            throw Error("Something went wrong!");
+        }
+    }
+    catch(err) {
+        throw err;
+    }
+}
+
+export type DeleteTaskRequest = {
+    taskId: string;
+}
+
+export type DeleteTaskResponse = {
+    error?: string;
+}
+
+export async function deleteTask(req : DeleteTaskRequest) {
+    try {
+        const authToken = getAuthToken();
+        const { taskId } = req;
+        const resp = await fetch(`${API_BASE_URL}/task/${taskId}`, {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
+            },
+        });
+        const respBody = await resp.json() as DeleteTaskResponse;
         const { error } = respBody;
         if(error) {
             throw Error(error);

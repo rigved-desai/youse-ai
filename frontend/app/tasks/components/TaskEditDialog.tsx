@@ -34,7 +34,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
  
-import { updateTask } from '@/app/api/api';
+import { deleteTask, updateTask } from '@/app/api/api';
 import { delay, handleError } from '@/app/utils/utils';
 import { ThreeDots } from "react-loader-spinner";
 import {toast} from 'sonner';
@@ -79,7 +79,7 @@ export default function TaskEditDialog({taskId, title, status, priority, descrip
                 description: newDescription,
                 dueDate: newDueDate
             });
-            toast.success("Task updated successfully!");
+            toast.success("Task updated successfully! Please refresh the page.");
         }
         catch(err) {
             const error = handleError(err);
@@ -88,7 +88,25 @@ export default function TaskEditDialog({taskId, title, status, priority, descrip
         finally {
             setLoading(false);
         }
-    } 
+    }
+    
+    const handleDelete = async() => {
+        try {
+            setLoading(true);
+            await delay(2000);
+            await deleteTask({
+                taskId,
+            });
+            toast.success("Task deleted successfully! Please refresh the page.");
+        }
+        catch(err) {
+            const error = handleError(err);
+            toast.error(error);
+        }
+        finally {
+            setLoading(false);
+        }
+    }
     
     return (
         <Dialog>
@@ -158,8 +176,12 @@ export default function TaskEditDialog({taskId, title, status, priority, descrip
       </PopoverContent>
     </Popover>
     <DialogFooter>
+        <div className='flex flex-row gap-5'>
+    <Button variant={'destructive'} disabled={loading} type='submit' size={'lg'} onClick={handleDelete}>{!loading ? "Delete Task" : <ThreeDots color="white" height="20"
+  width="30"/>}</Button>
         <Button disabled={loading} type='submit' size={'lg'} onClick={handleSubmit}>{!loading ? "Save Changes" : <ThreeDots color="white" height="20"
   width="30"/>}</Button>
+        </div>
     </DialogFooter>
     <DialogFooter>
     </DialogFooter>
