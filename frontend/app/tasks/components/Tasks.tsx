@@ -7,11 +7,13 @@ import { useEffect, useState } from "react";
 import StatusFilter from "./StatusFilter";
 import PriorityFilter from "./PriorityFilter";
 import TaskCreateDialog from "./TaskCreateDialog";
+import { delay } from "@/app/utils/utils";
+import {ThreeDots} from 'react-loader-spinner';
 
 
 export default function Tasks() {
 
-    const [tasks, setTasks2] = useState<Task[]>([]);
+    const [tasks, setTasks] = useState<Task[]>([]);
     const [loading, setLoading] = useState(false);
 
     const [status, setStatus] = useState("");
@@ -21,8 +23,9 @@ export default function Tasks() {
         const fetchAndSetData = async () => {
             setLoading(true);
             try {
+                await delay(2000);
                 const tasks = await fetchTasks({status, priority}); 
-                setTasks2(tasks);
+                setTasks(tasks);
             }
             catch(err) {
                 console.log(err);
@@ -36,7 +39,9 @@ export default function Tasks() {
 
     if(loading) {
         return (
-            <div>Loading...</div>
+            <div className="container flex justify-center p-2 gap-5">
+                <ThreeDots color="black"/>
+            </div>    
         )
     }
 

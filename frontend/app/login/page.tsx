@@ -9,6 +9,9 @@ import { Button } from "@/components/ui/button";
 import { loginUser } from "../api/api";
 import { useRouter } from "next/navigation";
 import { useUser } from "../contexts/UserContext";
+import { useState } from "react";
+import { ThreeDots } from "react-loader-spinner";
+import { delay } from "../utils/utils";
  
 const formSchema = z.object({
   username: z.string().min(3).max(20),
@@ -25,11 +28,14 @@ export default function LoginPage() {
         },
       });
       const userContext = useUser();
+      
+      const [loading, setLoading] = useState(false);
 
       async function onSubmit(values: z.infer<typeof formSchema>) {
         const {username, password} = values;
-        console.log("Running!");
+        setLoading(true);
         try {
+            await delay(2000);
             await loginUser({username, password});
             if(!userContext) {
                 throw Error("User not found!");
@@ -40,6 +46,9 @@ export default function LoginPage() {
         }
         catch(err){
             console.log(err);
+        }
+        finally {
+          setLoading(false);
         }
       }
       
@@ -83,10 +92,12 @@ export default function LoginPage() {
           )}
         />
         <Button
+        disabled={loading}
           type="submit"
           className="w-full bg-primary text-primary-foreground font-semibold py-2 shadow-md"
         >
-          Submit
+          {!loading ? "Submit" : <ThreeDots color="white" height="20"
+  width="30"/>}
         </Button>
       </form>
     </Form>

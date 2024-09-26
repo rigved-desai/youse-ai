@@ -5,15 +5,17 @@ import {
     CardHeader,
     CardTitle,
   } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton";
 import { TaskCardComponent } from "../page"
   
 
 export type TaskColumnProps = {
     header: string,
     taskComponents: TaskCardComponent[];
+    loading: boolean,
 }
 
-export default function TaskColumn({header, taskComponents} : TaskColumnProps) {
+export default function TaskColumn({header, taskComponents, loading} : TaskColumnProps) {
 
     const renderedComponents = taskComponents.filter((component)=> {
         if(component.parent === header) {
@@ -30,14 +32,20 @@ export default function TaskColumn({header, taskComponents} : TaskColumnProps) {
                 <CardTitle>{header}</CardTitle>
             </CardHeader>
             <CardContent>
-                <div className=" gap-0.5 flex flex-col flex-grow">
-                 {
-                    renderedComponents.length > 0 ?
-                    renderedComponents.map((component) => {
-                        return component.taskCard
-                    }) : <p>No Tasks</p>
-                 }
-                 </div>
+                {
+                    !loading ? <div className=" gap-0.5 flex flex-col">
+                    {
+                       renderedComponents.length > 0 ?
+                       renderedComponents.map((component) => {
+                           return component.taskCard
+                       }) : <p>No Tasks</p>
+                    }
+                    </div> : <div className=" gap-3 flex flex-col">
+                        <Skeleton className="h-[125px] w-auto rounded-xl" key={1}/>
+                        <Skeleton className="h-[125px] w-auto rounded-xl" key={2}/>
+                        <Skeleton className="h-[125px] w-auto rounded-xl" key={3}/>
+                    </div>
+                }
             </CardContent>
         </Card>
             </Droppable>

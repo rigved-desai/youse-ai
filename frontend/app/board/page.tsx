@@ -5,6 +5,7 @@ import { DndContext, DragEndEvent, UniqueIdentifier } from "@dnd-kit/core";
 import dayjs from "dayjs";
 import { ReactNode, useEffect, useState } from "react"
 import { fetchTasks, updateTask } from "../api/api";
+import { delay } from "../utils/utils";
 import TaskColumn from "./components/TaskColumn";
 
 export type TaskCardComponent = {
@@ -16,10 +17,13 @@ export type TaskCardComponent = {
 export default function BoardPage() {
 
     const [taskComponents, setTaskComponents] = useState<TaskCardComponent[]>([]);
+    const[loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchAndSetData = async () => {
+            setLoading(true);
             try {
+                await delay(2000);
                 const tasks = await fetchTasks();
                 setTaskComponents(tasks.map((task) => {
                     return {
@@ -45,6 +49,9 @@ export default function BoardPage() {
             catch(err) {
                 console.log(err);
             }        
+            finally{
+                setLoading(false);
+            }
         }
         fetchAndSetData();
     }, []);
@@ -81,9 +88,9 @@ export default function BoardPage() {
       </div>
       <div className="p-3 flex gap-5">
         <DndContext onDragEnd={handleDragEnd}>
-            <TaskColumn header="To Do" taskComponents={taskComponents} />
-            <TaskColumn header="In Progress" taskComponents={taskComponents} />
-            <TaskColumn header="Completed" taskComponents={taskComponents} />
+            <TaskColumn header="To Do" taskComponents={taskComponents} loading={loading}/>
+            <TaskColumn header="In Progress" taskComponents={taskComponents} loading={loading}/>
+            <TaskColumn header="Completed" taskComponents={taskComponents} loading={loading}/>
         </DndContext>
       </div>
     </div>

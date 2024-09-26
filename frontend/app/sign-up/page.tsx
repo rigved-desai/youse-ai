@@ -7,6 +7,9 @@ import { Form, FormField, FormItem, FormMessage, FormLabel, FormControl } from "
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { signUpUser } from "../api/api";
+import { useState } from "react";
+import { delay } from "../utils/utils";
+import { ThreeDots } from "react-loader-spinner";
  
 const formSchema = z.object({
   username: z.string().min(2).max(20),
@@ -24,13 +27,20 @@ export default function SignUpPage() {
         },
       });
 
+    const [loading, setLoading] = useState(false);
+
       async function onSubmit(values: z.infer<typeof formSchema>) {
         const {username, password} = values;
+        setLoading(true);
         try {
+            await delay(2000);
             await signUpUser({username, password});
         }
         catch(err){
             console.log(err);
+        }
+        finally {
+          setLoading(false);
         }
       }
       
@@ -72,10 +82,12 @@ export default function SignUpPage() {
           )}
         />
         <Button
+        disabled={loading}
           type="submit"
           className="w-full bg-primary text-primary-foreground font-semibold py-2 shadow-md"
         >
-          Submit
+          {!loading ? "Submit" : <ThreeDots color="white" height="20"
+  width="30"/>}
         </Button>
       </form>
     </Form>

@@ -34,6 +34,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { createTask } from '@/app/api/api';
+import { ThreeDots } from "react-loader-spinner";
+import { delay } from '@/app/utils/utils';
 
 export default function TaskCreateDialog() {
     const [newTitle, setNewTitle] = useState<string>();
@@ -41,6 +43,8 @@ export default function TaskCreateDialog() {
     const [newStatus, setNewStatus] = useState<string>();
     const [newPriority, setnewPriority] = useState<string>();
     const [newDueDate, setnewDueDate] = useState<Date>();
+
+    const [loading, setLoading] = useState(false);
 
     const handleTitleChange= (e : ChangeEvent<HTMLInputElement>) => {
         setNewTitle(e.target.value);
@@ -51,7 +55,9 @@ export default function TaskCreateDialog() {
     }
 
     const handleSubmit = async () => {
+        setLoading(true);
         try {
+            await delay(2000);
             await createTask({
                 title: newTitle,
                 status: newStatus,
@@ -63,6 +69,9 @@ export default function TaskCreateDialog() {
         }
         catch(err) {
             console.log(err);
+        }
+        finally {
+            setLoading(false);
         }
     } 
     
@@ -135,7 +144,8 @@ export default function TaskCreateDialog() {
       </PopoverContent>
     </Popover>
     <DialogFooter>
-        <Button type='submit' size={'lg'} onClick={handleSubmit}>Create</Button>
+        <Button disabled={loading} type='submit' size={'lg'} onClick={handleSubmit}>{!loading ? "Create" : <ThreeDots color="white" height="20"
+  width="30"/>}</Button>
     </DialogFooter>
     <DialogFooter>
     </DialogFooter>

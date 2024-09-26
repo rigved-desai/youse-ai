@@ -35,6 +35,8 @@ import {
 } from "@/components/ui/popover"
  
 import { updateTask } from '@/app/api/api';
+import { delay } from '@/app/utils/utils';
+import { ThreeDots } from "react-loader-spinner";
 
 export type TaskEditDialogProps = {
     taskId: string
@@ -53,6 +55,8 @@ export default function TaskEditDialog({taskId, title, status, priority, descrip
     const [newPriority, setnewPriority] = useState(priority);
     const [newDueDate, setnewDueDate] = useState<Date | undefined>(dueDate ?? undefined);
 
+    const [loading, setLoading] = useState(false);
+
     const handleTitleChange= (e : ChangeEvent<HTMLInputElement>) => {
         setNewTitle(e.target.value);
     }
@@ -63,6 +67,8 @@ export default function TaskEditDialog({taskId, title, status, priority, descrip
 
     const handleSubmit = async () => {
         try {
+            setLoading(true);
+            await delay(2000);
             await updateTask({
                 taskId,
                 title: newTitle,
@@ -75,6 +81,9 @@ export default function TaskEditDialog({taskId, title, status, priority, descrip
         }
         catch(err) {
             console.log(err);
+        }
+        finally {
+            setLoading(false);
         }
     } 
     
@@ -146,7 +155,8 @@ export default function TaskEditDialog({taskId, title, status, priority, descrip
       </PopoverContent>
     </Popover>
     <DialogFooter>
-        <Button type='submit' size={'lg'} onClick={handleSubmit}>Save Changes</Button>
+        <Button disabled={loading} type='submit' size={'lg'} onClick={handleSubmit}>{!loading ? "Save Changes" : <ThreeDots color="white" height="20"
+  width="30"/>}</Button>
     </DialogFooter>
     <DialogFooter>
     </DialogFooter>
