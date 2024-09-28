@@ -8,6 +8,7 @@ import { fetchTasks, updateTask } from '../api/api';
 import { delay, handleError } from '../utils/utils';
 import TaskColumn from './components/TaskColumn';
 import { toast } from 'sonner';
+import { TaskStatus } from '../tasks/components/StatusFilter';
 
 export type TaskCardComponent = {
   taskCard: ReactNode;
@@ -87,9 +88,17 @@ export default function BoardPage() {
       </div>
       <div className="flex gap-5 p-3">
         <DndContext onDragEnd={handleDragEnd}>
-          <TaskColumn header="To Do" taskComponents={taskComponents} loading={loading} />
-          <TaskColumn header="In Progress" taskComponents={taskComponents} loading={loading} />
-          <TaskColumn header="Completed" taskComponents={taskComponents} loading={loading} />
+          <TaskColumn header={TaskStatus.TO_DO} taskComponents={taskComponents} loading={loading} />
+          <TaskColumn
+            header={TaskStatus.IN_PROGRESS}
+            taskComponents={taskComponents}
+            loading={loading}
+          />
+          <TaskColumn
+            header={TaskStatus.COMPLETED}
+            taskComponents={taskComponents}
+            loading={loading}
+          />
         </DndContext>
       </div>
     </div>

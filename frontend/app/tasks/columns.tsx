@@ -2,11 +2,23 @@
 
 import { ColumnDef } from '@tanstack/react-table';
 import dayjs from 'dayjs';
-import { ArrowUpDown, ArrowDown, ArrowUp } from 'lucide-react';
+import {
+  ArrowUpDown,
+  ArrowDown,
+  ArrowUp,
+  CircleDashed,
+  Timer,
+  CheckCircle,
+  ChevronRight,
+  ChevronUp,
+  ChevronsUp,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 import { Task } from '../api/api';
 import TaskEditDialog from './components/TaskEditDialog';
+import { TaskStatus } from './components/StatusFilter';
+import { TaskPriority } from './components/PriorityFilter';
 
 const taskPrioritySortValues: Record<string, number> = {
   Low: 0,
@@ -69,6 +81,21 @@ export const taskTableColumns: ColumnDef<Task>[] = [
         </Button>
       );
     },
+    cell: ({ getValue }) => {
+      const status = getValue() as string;
+      return (
+        <div className="flex flex-row gap-1">
+          {status === TaskStatus.TO_DO ? (
+            <CircleDashed color="grey" />
+          ) : status === TaskStatus.IN_PROGRESS ? (
+            <Timer color="orange" />
+          ) : (
+            <CheckCircle color="green" />
+          )}
+          {<p className="mt-0.5">{status}</p>}
+        </div>
+      );
+    },
   },
   {
     accessorKey: 'priority',
@@ -104,6 +131,21 @@ export const taskTableColumns: ColumnDef<Task>[] = [
             <ArrowUp className="ml-2 h-4 w-4" />
           )}
         </Button>
+      );
+    },
+    cell: ({ getValue }) => {
+      const priority = getValue() as string;
+      return (
+        <div className="flex flex-row gap-1">
+          {priority === TaskPriority.LOW ? (
+            <ChevronRight color="green" />
+          ) : priority === TaskPriority.MEDIUM ? (
+            <ChevronUp color="orange" />
+          ) : (
+            <ChevronsUp color="red" />
+          )}
+          {<p className="mt-0.5">{priority}</p>}
+        </div>
       );
     },
   },

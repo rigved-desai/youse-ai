@@ -1,6 +1,8 @@
+import { TaskStatus } from '@/app/tasks/components/StatusFilter';
 import { Droppable } from '@/components/dnd/Droppable';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { CheckCircle, CircleDashed, Timer } from 'lucide-react';
 import { TaskCardComponent } from '../page';
 
 export type TaskColumnProps = {
@@ -21,7 +23,18 @@ export default function TaskColumn({ header, taskComponents, loading }: TaskColu
       <Droppable id={header}>
         <Card>
           <CardHeader>
-            <CardTitle>{header}</CardTitle>
+            <CardTitle>
+              <div className="flex flex-row gap-1">
+                {header === TaskStatus.TO_DO ? (
+                  <CircleDashed color="grey" />
+                ) : header === TaskStatus.IN_PROGRESS ? (
+                  <Timer color="orange" />
+                ) : (
+                  <CheckCircle color="green" />
+                )}
+                {<p className="mt-1">{header}</p>}
+              </div>
+            </CardTitle>
           </CardHeader>
           <CardContent>
             {!loading ? (
