@@ -13,15 +13,16 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
   try {
-    const resp = await fetch(`${API_BASE_URL}/auth/validate-token`, {
+    const isTokenValid = await fetch(`${API_BASE_URL}/auth/validate-token`, {
       headers: {
         Authorization: `Bearer ${authToken.value}`,
         'Content-Type': 'application/json',
       },
     });
-    if (!resp.ok) {
-      request.cookies.delete('tasks-auth-token');
-      return NextResponse.redirect(new URL('/login', request.url));
+    if (!isTokenValid.ok) {
+      const resp = NextResponse.redirect(new URL('/login', request.url));
+      resp.cookies.delete('tasks-auth-token');
+      return resp;
     }
     if (path === '/sign-up' || path === '/login') {
       return NextResponse.redirect(new URL('/tasks', request.url));
